@@ -92,7 +92,7 @@
 
       function getLocation() {
         if (navigator.geolocation) {
-          <p>EIONRIUJNO</p>
+          
           navigator.geolocation.getCurrentPosition(showPosition);
         } else { 
           x.innerHTML = "Geolocation is not supported by this browser.";
@@ -100,8 +100,8 @@
       }
 
       function showPosition(position) {
-        x.innerHTML = "Latitude: " + position.coords.latitude + 
-        " Longitude: " + position.coords.longitude;
+        x.innerHTML = "Here are your coordinates. Paste these into the starting location box: " + position.coords.longitude 
+        + ", " + position.coords.latitude;
       }
       </script>
 <!--////////////////////////////////////////////////////////////////-->
@@ -123,12 +123,12 @@
 
       const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
-        unit: 'metric',
+        unit: 'imperial',
         profile: 'mapbox/driving',
-        alternatives: false,
+        alternatives: true,
         geometries: 'geojson',
-        controls: { instructions: false },
-        flyTo: false
+        controls: { instructions: true },
+        flyTo: true
       });
 
       map.addControl(directions, 'top-right');
