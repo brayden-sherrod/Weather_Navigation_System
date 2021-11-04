@@ -33,7 +33,7 @@
 
       #map {
         position: absolute;
-        top: 0;
+        top: 20%;
         bottom: 0;
         width: 100%;
       }
@@ -42,7 +42,7 @@
         position: absolute;
         margin: 20px 20px 30px 20px;
         width: 25%;
-        top: 0;
+        top: 20%;
         bottom: 0;
         padding: 20px;
         background-color: #fff;
@@ -80,8 +80,31 @@
       }
     </style>
   </head>
+<!--////////////////////////////////////////////////////////////////-->
+    <p>Click the button to get your coordinates.</p>
 
-  <body>
+      <button onclick="getLocation()">Try It</button>
+
+      <p id="demo"></p>
+
+      <script>
+      var x = document.getElementById("demo");
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          <p>EIONRIUJNO</p>
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+          x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+
+      function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude + 
+        " Longitude: " + position.coords.longitude;
+      }
+      </script>
+<!--////////////////////////////////////////////////////////////////-->
     <div id="map"></div>
     <div class="sidebar">
       <h1>Reports</h1>
@@ -93,8 +116,9 @@
       const map = new mapboxgl.Map({
         container: 'map', // Specify the container ID
         style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
-        center: [-84.5, 38.05], // Specify the starting position [lng, lat]
-        zoom: 11 // Specify the starting zoom
+        center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
+
+        zoom: 13 // Specify the starting zoom
       });
 
       const directions = new MapboxDirections({
