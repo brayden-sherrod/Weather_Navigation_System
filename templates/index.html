@@ -24,90 +24,40 @@
     <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.1.1/polyline.js"></script>
 
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Open Sans', sans-serif;
-      }
-
-      #map {
-        position: absolute;
-        top: 20%;
-        bottom: 0;
-        width: 100%;
-      }
-
-      .sidebar {
-        position: absolute;
-        margin: 20px 20px 30px 20px;
-        width: 25%;
-        top: 20%;
-        bottom: 0;
-        padding: 20px;
-        background-color: #fff;
-        overflow-y: scroll;
-      }
-
-      .card {
-        font-size: small;
-        border-bottom: solid #d3d3d3 2px;
-        margin-bottom: 6px;
-      }
-
-      .card-header {
-        font-weight: bold;
-        padding: 6px;
-      }
-
-      .no-route {
-        background-color: #d3d3d3;
-        color: #f00;
-      }
-
-      .obstacle-found {
-        background-color: #d3d3d3;
-        color: #fff;
-      }
-
-      .route-found {
-        background-color: #33a532;
-        color: #fff;
-      }
-
-      .card-details {
-        padding: 3px 6px;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css"></script>
   </head>
 <!--////////////////////////////////////////////////////////////////-->
-    <p>Click the button to get your coordinates.</p>
-
-      <button onclick="getLocation()">Try It</button>
-
-      <p id="demo"></p>
-
-      <script>
-      var x = document.getElementById("demo");
-
-      function getLocation() {
-        if (navigator.geolocation) {
-          
-          navigator.geolocation.getCurrentPosition(showPosition);
-        } else { 
-          x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-      }
-
-      function showPosition(position) {
-        x.innerHTML = "Here are your coordinates. Paste these into the starting location box: " + position.coords.longitude 
-        + ", " + position.coords.latitude;
-      }
-      </script>
+<body>
+ 
 <!--////////////////////////////////////////////////////////////////-->
     <div id="map"></div>
+    <div class="titlebar">
+  
+        <button onclick="getLocation()">Get your location</button>
+        <p>Paste coords into A box.</p>
+
+        <p id="demo"></p>
+  
+        <script>
+          var x = document.getElementById("demo");
+  
+          function getLocation() {
+            if (navigator.geolocation) {          
+              navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+              x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+          }
+          function showPosition(position) {
+            x.innerHTML = "Here are your coordinates. Paste these into the starting location box: " + position.coords.longitude 
+            + ", " + position.coords.latitude;
+          }
+        </script>
+    </div>
+    
     <div class="sidebar">
-      <h1>Reports</h1>
+      <img src="caelum_logo.png" alt="logo">
+      <h1>Settings</h1>
       <div id="reports"></div>
     </div>
 
