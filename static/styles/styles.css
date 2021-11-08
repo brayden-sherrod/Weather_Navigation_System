@@ -12,15 +12,12 @@ body {
   width: 100%;
 }
 
-.titlebar{
 
+#getLocButton{
+  float: right;
+  right:  22%;
+  top: 1.5%;
   position: fixed;
-  /*float: right;*/
-  right:  1%;
-  top: 20%;
-  background-color: cornflowerblue;
-
-
 }
 
 h1{
