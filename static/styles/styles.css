@@ -12,6 +12,13 @@ body {
   width: 100%;
 }
 
+input[type=radio]{
+  transform:scale(.9);
+}
+
+.form-check-label{
+  font-size: small;
+}
 
 #getLocButton{
   float: right;
