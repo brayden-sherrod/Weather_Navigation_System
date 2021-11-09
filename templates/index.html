@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="fontawesome-i2svg-active fontawesome-i2svg-complete">
   <head>
     <meta charset="utf-8" />
-    <title>Demo: Route finding with the Directions API and Turf.js</title>
+
+    <title>Caelum</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Import Mapbox GL JS -->
@@ -34,83 +35,138 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
     <!--Import Bootstrap Toggle button-->
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+    <!--custom scrollbar plugin-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+  
+    <script defer="" src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>  
+    
+    <script defer="" src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+  
+    <!--Font Awesome kit-->
+    <script src="https://kit.fontawesome.com/6341e10766.js" crossorigin="anonymous"></script>
   </head>
 <body>
+        <!-- Sidebar -->
+        <nav id="sidebar">
+          <div id="dismiss">
+              <i class="fas fa-arrow-left"></i>
+          </div>
   
+          <div class="sidebar-header">
+            <h2>Caelum</h2>
+            <img src="../static/caelum_logo.png" alt="Caelum logo">
+          </div>
+          
+          <ul class="list-unstyled components">
+              <div id="reports">
+              <h3>Settings</h3>
+                <p>Storm severity to avoid:</p>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                  <label class="form-check-label" for="inlineRadio1">1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                  <label class="form-check-label" for="inlineRadio2">2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                  <label class="form-check-label" for="inlineRadio3">3</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+                  <label class="form-check-label" for="inlineRadio4">4</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
+                  <label class="form-check-label" for="inlineRadio5">5</label>
+                </div>
+            <div>
+              <p>Dark mode</p>
+                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary">
+              </br>
+              </br>
+              <p>Colorblind mode</p>
+                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary">
+            </div>
+          </div>
+          </ul>
+      </nav>
+
+    <!--content-->
     <div id="map"></div>
   
-      <button id="getLocButton" onclick="getLocation()" class="btn btn-secondary btn-md" data-toggle="modal" data-target="#myModal">Get your location</button>
-      <div class="modal" id="myModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Your Location</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div id="modalbody" class="modal-body">
-              <!--Erin: GetLocation Script, asks to share loc then pastes coord into modal-->
-              <script>
-                var x = document.getElementById("modalbody");
-                function getLocation() {
-                  if (navigator.geolocation) {          
-                    navigator.geolocation.getCurrentPosition(showPosition);
-                  } else { 
-                    x.innerHTML = "Geolocation is not supported by this browser.";
-                  }
-                }
-                function showPosition(position) {
-                  x.innerHTML = "Here are your coordinates. Paste these into the starting location box: " + position.coords.longitude 
-                  + ", " + position.coords.latitude;
-                }
-              </script>
-            </div>            
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>     
+    <!--get your location button-->
+    <button id="getLocButton" onclick="getLocation()" class="btn btn-secondary btn-md" data-toggle="modal" data-target="#myModal">Get your location</button>
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Your Location</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
+          <div id="modalbody" class="modal-body">
+            <!--Erin: GetLocation Script, asks to share loc then pastes coord into modal (not mapbox)-->
+            <script>
+              var x = document.getElementById("modalbody");
+              function getLocation() {
+                if (navigator.geolocation) {          
+                  navigator.geolocation.getCurrentPosition(showPosition);
+                } else { 
+                  x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+              }
+              function showPosition(position) {
+                x.innerHTML = "Here are your coordinates. Paste these into the starting location box: " + position.coords.longitude 
+                + ", " + position.coords.latitude;
+              }
+            </script>
+          </div>            
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>     
         </div>
       </div>
+    </div>
     
-    <div class="sidebar">
-      <img src="../static/caelum_logo.png" alt="logo">
-      <h1>Settings</h1>
-      <div id="reports">
-        <!--Erin: settings sidebar-->
-        <h4>Storm severity to avoid:</h4>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-          <label class="form-check-label" for="inlineRadio1">1</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-          <label class="form-check-label" for="inlineRadio2">2</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-          <label class="form-check-label" for="inlineRadio3">3</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
-          <label class="form-check-label" for="inlineRadio4">4</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-          <label class="form-check-label" for="inlineRadio5">5</label>
-        </div>
-      </div>
-    <div>
-      </br>
-      <h5>Dark mode</h5>
-      <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary">
-      </br>
-      </br>
-      <h5>Colorblind mode</h5>
-      <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary">
-    </div>
+    <!--Toggle sidebar button-->
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+        <!--<i class="fas fa-align-left"></i>-->
+        <i class="fas fa-tasks"></i>
+    </button>
+  
+    
+    <div class="overlay"></div>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!--sidebar scripting-->
+    <script type="text/javascript">
+      $(document).ready(function () {
+          $("#sidebar").mCustomScrollbar({
+              theme: "minimal"
+          });
+          $('#dismiss, .overlay').on('click', function () {
+              // hide sidebar
+              $('#sidebar').removeClass('active');
+              // hide overlay
+              $('.overlay').removeClass('active');
+          });
+          $('#sidebarCollapse').on('click', function () {
+              // open sidebar
+              $('#sidebar').addClass('active');
+              // fade in the overlay
+              $('.overlay').addClass('active');
+              $('.collapse.in').toggleClass('in');
+              $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+          });
+      });
+  </script>
 
-    </div>
-
+  <!--Erin: mapbox scripting-->
     <script>
       mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
       const map = new mapboxgl.Map({
@@ -328,11 +384,11 @@
       });
     </script>
     <!--Bootstrap JS plugins-->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <!--Bootstrap Toggle plugin-->
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
 
   </body>
 </html>
