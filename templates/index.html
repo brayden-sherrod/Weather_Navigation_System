@@ -55,12 +55,14 @@
           </div>
   
           <div class="sidebar-header">
-            <h2>Caelum</h2>
             <img src="../static/caelum_logo.png" alt="Caelum logo">
+            <h1 id="CaelumTitle">Caelum</h1>
+
           </div>
           
           <ul class="list-unstyled components">
               <div id="reports">
+              </br>
               <h3>Settings</h3>
                 <p>Storm severity to avoid:</p>
                 <div class="form-check form-check-inline">
@@ -134,7 +136,7 @@
     <!--Toggle sidebar button-->
     <button type="button" id="sidebarCollapse" class="btn btn-info">
         <!--<i class="fas fa-align-left"></i>-->
-        <i class="fas fa-tasks"></i>
+        <i class="fas fa-tasks fa-2x"></i>
     </button>
   
     
@@ -172,6 +174,7 @@
       const map = new mapboxgl.Map({
         container: 'map', // Specify the container ID
         style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
+        // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
         center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
 
         zoom: 13 // Specify the starting zoom
