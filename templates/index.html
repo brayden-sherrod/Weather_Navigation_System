@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="fontawesome-i2svg-active fontawesome-i2svg-complete">
-  <head>
+<head>
     <meta charset="utf-8" />
 
     <title>Caelum</title>
@@ -8,18 +8,20 @@
 
     <!-- Import Mapbox GL JS -->
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
-    <link
-      href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css"
-      rel="stylesheet"
-    />
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css"
+          rel="stylesheet" />
+
+    <!-- import { json } from 'd3-request';-->
+    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+    <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+    <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
+    <script src="https://d3js.org/d3-request.v1.min.js"></script>
 
     <!-- Import Mapbox GL Directions -->
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
-      type="text/css"
-    />
+    <link rel="stylesheet"
+          href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
+          type="text/css" />
 
     <!-- Import Turf & Polyline -->
     <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
@@ -33,20 +35,20 @@
 
     <!--Import Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
+
     <!--Import Bootstrap Toggle button-->
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
     <!--custom scrollbar plugin-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-  
-    <script defer="" src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>  
-    
+
+    <script defer="" src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+
     <script defer="" src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-  
+
     <!--Font Awesome kit-->
     <script src="https://kit.fontawesome.com/6341e10766.js" crossorigin="anonymous"></script>
-  </head>
+</head>
 <body>
         <!-- Sidebar -->
         <nav id="sidebar">
@@ -151,6 +153,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <!--sidebar scripting-->
     <script type="text/javascript">
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
+        function swapStyle(styleID) {
+            var currentStyle = map.getStyle();
+            d3.json(`https://api.mapbox.com/styles/v1/mapbox/${styleID}?access_token=${mapboxgl.accessToken}`, (newStyle) => {
+                newStyle.sources = Object.assign({}, currentStyle.source, newStyle.sources); // ensure any sources from the current style are copied across to the new style
+                var labelIndex = newStyle.layers.findIndex((el) => { // find the index of where to insert our layers to retain in the new style
+                    return el.id == 'waterway-label';
+                });
+                var appLayers = currentStyle.layers.filter((el) => { // app layers are the layers to retain, and these are any layers which have a different source set
+                    return (el.source && el.source != "mapbox://mapbox.satellite" && el.source != "composite");
+                });
+                appLayers.reverse(); // reverse to retain the correct layer order
+                appLayers.forEach((layer) => {
+                    newStyle.layers.splice(labelIndex, 0, layer); // inset these layers to retain into the new style
+                });
+                map.setStyle(newStyle); // now setStyle
+            });
+        }
+
 
       $(document).ready(function () {
           $("#sidebar").mCustomScrollbar({
@@ -175,10 +196,10 @@
           });**/
           $('#dark-toggle').on('change', function () {
             let checkbox = document.getElementById("dark-toggle");
-            if($(this).prop('checked')){
-              map.setStyle('mapbox://styles/mapbox/dark-v10'); 
-              map.addControl(directions, 'top-right');
-              map.scrollZoom.enable();
+              if ($(this).prop('checked')) {
+                  swapStyle('dark - v10');
+                 // map.addControl(directions, 'top-right');
+                  map.scrollZoom.enable();
             }else{
               map.setStyle('mapbox://styles/mapbox/light-v10'); 
             }            
@@ -190,9 +211,7 @@
   <!--Erin: mapbox scripting-->
 
     <script>
-       
-      mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
-
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
       const map = new mapboxgl.Map({
         container: 'map', // Specify the container ID
         style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
