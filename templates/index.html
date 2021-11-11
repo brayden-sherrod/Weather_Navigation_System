@@ -91,11 +91,11 @@
                 </div>
             <div>
               <p>Dark mode</p>
-                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary">
+                <input type="checkbox"  data-toggle="toggle" data-onstyle="primary" id="dark-toggle" >
               </br>
               </br>
               <p>Colorblind mode</p>
-                <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary">
+                <input type="checkbox"  data-toggle="toggle" data-onstyle="primary">
             </div>
           </div>
           </ul>
@@ -151,6 +151,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <!--sidebar scripting-->
     <script type="text/javascript">
+
       $(document).ready(function () {
           $("#sidebar").mCustomScrollbar({
               theme: "minimal"
@@ -169,21 +170,38 @@
               $('.collapse.in').toggleClass('in');
               $('a[aria-expanded=true]').attr('aria-expanded', 'false');
           });
+          /**$(function(){
+            $('#dark-toggle').change(function)
+          });**/
+          $('#dark-toggle').on('change', function () {
+            let checkbox = document.getElementById("dark-toggle");
+            if($(this).prop('checked')){
+              map.setStyle('mapbox://styles/mapbox/dark-v10'); 
+              map.addControl(directions, 'top-right');
+              map.scrollZoom.enable();
+            }else{
+              map.setStyle('mapbox://styles/mapbox/light-v10'); 
+            }            
+
+          });
       });
   </script>
 
   <!--Erin: mapbox scripting-->
+
     <script>
+       
       mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
+
       const map = new mapboxgl.Map({
         container: 'map', // Specify the container ID
         style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
         // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
         center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
-
         zoom: 13 // Specify the starting zoom
       });
 
+    
       const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
         unit: 'imperial',
