@@ -92,9 +92,23 @@ a[data-toggle="collapse"] {
   padding: 30px;
 }
 
-#aboutUsModal{
-  z-index: 1999;
+
+#legend{
+  background-color: rgb(108, 117 125);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 2px;
+  color: rgb(255, 255, 255);
+  z-index: 998;
+  bottom: 0%;
+  margin: auto;
+  width: 36%;
+  left: 32%;
+  position: fixed;
+  text-align: center;
 }
+
 #map {
   position: absolute;
   top: 0%;
