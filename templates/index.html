@@ -97,10 +97,32 @@
               <p>Colorblind mode</p>
                 <input type="checkbox"  data-toggle="toggle" data-onstyle="primary">
             </div>
-          </div>
+            </div>
           </ul>
+          <div id="sidebarFooter">
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#aboutUsModal" >
+              About Us
+            </button>
+          </div>
       </nav>
-
+      <!--About Us Modal, needs to be outside of nav tag-->
+      <div class="modal" id="aboutUsModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">About Us</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="modalbody2" class="modal-body">
+              <p>We aim to make Caelum a safer alternative to popular navigation apps by including weather forecasting technology.</p>
+              <p>—the B-RAGE team</p>
+            </div>            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>     
+          </div>
+        </div>
+      </div>
     <!--content-->
     <div id="map"></div>
   
@@ -139,7 +161,6 @@
     
     <!--Toggle sidebar button-->
     <button type="button" id="sidebarCollapse" class="btn btn-info">
-        <!--<i class="fas fa-align-left"></i>-->
         <i class="fas fa-tasks fa-2x"></i>
     </button>
   
@@ -170,9 +191,7 @@
               $('.collapse.in').toggleClass('in');
               $('a[aria-expanded=true]').attr('aria-expanded', 'false');
           });
-          /**$(function(){
-            $('#dark-toggle').change(function)
-          });**/
+          // if dark toggle on, create dark mode map, else create light mode map
           $('#dark-toggle').on('change', function () {
             let checkbox = document.getElementById("dark-toggle");
               if ($(this).prop('checked')) {
@@ -186,13 +205,13 @@
 
                   directions = new MapboxDirections({
                       accessToken: mapboxgl.accessToken,
+                      alternatives: true
                   });
                   map.addControl(directions, 'top-right');
                   map.scrollZoom.enable();
-
-               
+                  
             }else{
-                  const map = new mapboxgl.Map({
+              const map = new mapboxgl.Map({
                       container: 'map', // Specify the container ID
                       style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
                       // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
@@ -202,13 +221,11 @@
 
                   directions = new MapboxDirections({
                       accessToken: mapboxgl.accessToken,
-
+                      alternatives: true
                   });
-
                   map.addControl(directions, 'top-right');
                   map.scrollZoom.enable();
             }            
-
           });
       });
   </script>
@@ -229,8 +246,9 @@
       });
 
             directions = new MapboxDirections({
-                accessToken: mapboxgl.accessToken,
-                
+              accessToken: mapboxgl.accessToken,
+              unit: 'imperial',
+              alternatives: true,
             });
 
             map.addControl(directions, 'top-right');
