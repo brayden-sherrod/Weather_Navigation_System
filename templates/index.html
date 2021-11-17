@@ -47,203 +47,239 @@
     <!--Font Awesome kit-->
     <script src="https://kit.fontawesome.com/6341e10766.js" crossorigin="anonymous"></script>
   </head>
-<body>
-        <!-- Sidebar -->
-        <nav id="sidebar">
+  <body>
+      <!-- Sidebar -->
+      <nav id="sidebar">
           <div id="dismiss">
               <i class="fas fa-arrow-left"></i>
           </div>
-  
+
           <div class="sidebar-header">
-            <img src="../static/caelum_logo.png" alt="Caelum logo">
-            <h1 id="CaelumTitle">Caelum</h1>
+              <img src="../static/caelum_logo.png" alt="Caelum logo">
+              <h1 id="CaelumTitle">Caelum</h1>
 
           </div>
-          
+
           <ul class="list-unstyled components">
               <div id="reports">
-              </br>
-              <h3>Settings</h3>
-                <p>Storm severity to avoid:</p>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                  <label class="form-check-label" for="inlineRadio1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                  <label class="form-check-label" for="inlineRadio2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                  <label class="form-check-label" for="inlineRadio3">3</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
-                  <label class="form-check-label" for="inlineRadio4">4</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-                  <label class="form-check-label" for="inlineRadio5">5</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-                  <label class="form-check-label" for="inlineRadio5">None</label>
-                </div>
-            <div>
-              <p>Dark mode</p>
-                <input type="checkbox"  data-toggle="toggle" data-onstyle="primary" id="dark-toggle" >
-              </br>
-              </br>
-              <p>Colorblind mode</p>
-                <input type="checkbox"  data-toggle="toggle" data-onstyle="primary">
-            </div>
-          </div>
+                  </br>
+                  <h3>Settings</h3>
+                  <p>Storm severity to avoid:</p>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                      <label class="form-check-label" for="inlineRadio1">1</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                      <label class="form-check-label" for="inlineRadio2">2</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                      <label class="form-check-label" for="inlineRadio3">3</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+                      <label class="form-check-label" for="inlineRadio4">4</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
+                      <label class="form-check-label" for="inlineRadio5">5</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
+                      <label class="form-check-label" for="inlineRadio5">None</label>
+                  </div>
+                  <div>
+                      <p>Dark mode</p>
+                      <input type="checkbox" data-toggle="toggle" data-onstyle="primary" id="dark-toggle">
+                      </br>
+                      </br>
+                      <p>Colorblind mode</p>
+                      <input type="checkbox" data-toggle="toggle" data-onstyle="primary">
+                  </div>
+              </div>
           </ul>
       </nav>
 
-    <!--content-->
-    <div id="map"></div>
-  
-    <!--get your location button-->
-    <button id="getLocButton" onclick="getLocation()" class="btn btn-secondary btn-md" data-toggle="modal" data-target="#myModal">Get your location</button>
-    <div class="modal" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Your Location</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <!--content-->
+      <div id="map"></div>
+
+      <!--get your location button-->
+      <button id="getLocButton" onclick="getLocation()" class="btn btn-secondary btn-md" data-toggle="modal" data-target="#myModal">Get your location</button>
+      <div class="modal" id="myModal">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title">Your Location</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div id="modalbody" class="modal-body">
+                      <!--Erin: GetLocation Script, asks to share loc then pastes coord into modal (not mapbox)-->
+                      <script>
+                          var x = document.getElementById("modalbody");
+                          function getLocation() {
+                              if (navigator.geolocation) {
+                                  navigator.geolocation.getCurrentPosition(showPosition);
+                              } else {
+                                  x.innerHTML = "Geolocation is not supported by this browser.";
+                              }
+                          }
+                          function showPosition(position) {
+                              x.innerHTML = "Here are your coordinates. Paste these into the starting location box: " + position.coords.longitude
+                                  + ", " + position.coords.latitude;
+                          }
+                      </script>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
           </div>
-          <div id="modalbody" class="modal-body">
-            <!--Erin: GetLocation Script, asks to share loc then pastes coord into modal (not mapbox)-->
-            <script>
-              var x = document.getElementById("modalbody");
-              function getLocation() {
-                if (navigator.geolocation) {          
-                  navigator.geolocation.getCurrentPosition(showPosition);
-                } else { 
-                  x.innerHTML = "Geolocation is not supported by this browser.";
-                }
-              }
-              function showPosition(position) {
-                x.innerHTML = "Here are your coordinates. Paste these into the starting location box: " + position.coords.longitude 
-                + ", " + position.coords.latitude;
-              }
-            </script>
-          </div>            
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          </div>     
-        </div>
       </div>
-    </div>
-    
-    <!--Toggle sidebar button-->
-    <button type="button" id="sidebarCollapse" class="btn btn-info">
-        <!--<i class="fas fa-align-left"></i>-->
-        <i class="fas fa-tasks fa-2x"></i>
-    </button>
-  
-    
-    <div class="overlay"></div>
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-    <!--sidebar scripting-->
-    <script type="text/javascript">
 
-      $(document).ready(function () {
-          $("#sidebar").mCustomScrollbar({
-              theme: "minimal"
+      <!--Toggle sidebar button-->
+      <button type="button" id="sidebarCollapse" class="btn btn-info">
+          <!--<i class="fas fa-align-left"></i>-->
+          <i class="fas fa-tasks fa-2x"></i>
+      </button>
+
+
+      <div class="overlay"></div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+      <!--sidebar scripting-->
+      <script type="text/javascript">
+
+          $(document).ready(function () {
+              $("#sidebar").mCustomScrollbar({
+                  theme: "minimal"
+              });
+              $('#dismiss, .overlay').on('click', function () {
+                  // hide sidebar
+                  $('#sidebar').removeClass('active');
+                  // hide overlay
+                  $('.overlay').removeClass('active');
+              });
+              $('#sidebarCollapse').on('click', function () {
+                  // open sidebar
+                  $('#sidebar').addClass('active');
+                  // fade in the overlay
+                  $('.overlay').addClass('active');
+                  $('.collapse.in').toggleClass('in');
+                  $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+              });
+              /**$(function(){
+                $('#dark-toggle').change(function)
+              });**/
+              $('#dark-toggle').on('change', function () {
+                  let checkbox = document.getElementById("dark-toggle");
+                  if ($(this).prop('checked')) {
+                      const map = new mapboxgl.Map({
+                          container: 'map', // Specify the container ID
+                          style: 'mapbox://styles/mapbox/dark-v10', // Specify which map style to use
+                          // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
+                          center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
+                          zoom: 13 // Specify the starting zoom
+                      });
+
+                      directions = new MapboxDirections({
+                          accessToken: mapboxgl.accessToken,
+                      });
+                      map.addControl(directions, 'top-right');
+                      map.scrollZoom.enable();
+
+
+                  } else {
+                      const map = new mapboxgl.Map({
+                          container: 'map', // Specify the container ID
+                          style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
+                          // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
+                          center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
+                          zoom: 13 // Specify the starting zoom
+                      });
+
+                      directions = new MapboxDirections({
+                          accessToken: mapboxgl.accessToken,
+
+                      });
+
+                      map.addControl(directions, 'top-right');
+                      map.scrollZoom.enable();
+                  }
+
+              });
           });
-          $('#dismiss, .overlay').on('click', function () {
-              // hide sidebar
-              $('#sidebar').removeClass('active');
-              // hide overlay
-              $('.overlay').removeClass('active');
+      </script>
+
+      <!--Erin: mapbox scripting-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+      <script>
+
+
+          mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
+          const weaKey = "596ea34fd1f51985fa7f343042944c67";
+          const map = new mapboxgl.Map({
+              container: 'map', // Specify the container ID
+              style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
+              // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
+              center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
+              zoom: 13 // Specify the starting zoom
           });
-          $('#sidebarCollapse').on('click', function () {
-              // open sidebar
-              $('#sidebar').addClass('active');
-              // fade in the overlay
-              $('.overlay').addClass('active');
-              $('.collapse.in').toggleClass('in');
-              $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+
+          directions = new MapboxDirections({
+              accessToken: mapboxgl.accessToken,
+
           });
-          /**$(function(){
-            $('#dark-toggle').change(function)
-          });**/
-          $('#dark-toggle').on('change', function () {
-            let checkbox = document.getElementById("dark-toggle");
-              if ($(this).prop('checked')) {
-                  const map = new mapboxgl.Map({
-                      container: 'map', // Specify the container ID
-                      style: 'mapbox://styles/mapbox/dark-v10', // Specify which map style to use
-                      // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
-                      center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
-                      zoom: 13 // Specify the starting zoom
+
+          map.addControl(directions, 'top-right');
+          map.scrollZoom.enable();
+          map.on('load', () => {
+              // Listen for the `directions.route` event that is triggered when a user
+              // makes a selection and add a symbol that matches the result.
+              directions.on('route', (event) => {
+                  const styleSpecBox = document.getElementById('json-response');
+
+                  // coord = JSON.stringify(event.route, null, 2);
+                  for (let i = 0; i < event.route[0].legs[0].steps.length; i++) {
+                      coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
+                      //alert(JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2));
+
+                      coord = coord.substring(1);
+                      coord = coord.substring(0, coord.length - 1);
+                      coordinates = coord.split(',');
+                      data = weaDatagetter(coordinates);
+                      //alert(JSON.stringify(data));
+
+                  }
+
+              });
+          });
+
+          function weaDatagetter(x) {
+              url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + x[1] + "&lon=" + x[0] + "&appid=" + weaKey
+              url = url.replace(/\r?\n|\r/g, "");
+              url = url.replace(/\s/g, '');
+              //alert(url);
+              fetch(url)
+                  .then(function (resp) { return resp.json() }) // Convert data to json
+                  .then(function (data) {
+                      console.log(data);
+                  })
+                  .catch(function () {
+                      // catch any errors
                   });
 
-                  directions = new MapboxDirections({
-                      accessToken: mapboxgl.accessToken,
-                  });
-                  map.addControl(directions, 'top-right');
-                  map.scrollZoom.enable();
+          }
 
-               
-            }else{
-                  const map = new mapboxgl.Map({
-                      container: 'map', // Specify the container ID
-                      style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
-                      // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
-                      center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
-                      zoom: 13 // Specify the starting zoom
-                  });
-
-                  directions = new MapboxDirections({
-                      accessToken: mapboxgl.accessToken,
-
-                  });
-
-                  map.addControl(directions, 'top-right');
-                  map.scrollZoom.enable();
-            }            
-
-          });
-      });
-  </script>
-
-  <!--Erin: mapbox scripting-->
-
-    <script>
-    
-       
-      mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
-
-      const map = new mapboxgl.Map({
-        container: 'map', // Specify the container ID
-        style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
-        // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
-        center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
-        zoom: 13 // Specify the starting zoom
-      });
-
-            directions = new MapboxDirections({
-                accessToken: mapboxgl.accessToken,
-                
-            });
-
-            map.addControl(directions, 'top-right');
-            map.scrollZoom.enable();
-
-        
-
-    </script>
-    <!--Bootstrap JS plugins-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <!--Bootstrap Toggle plugin-->
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+      </script>
+      <!--Bootstrap JS plugins-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <!--Bootstrap Toggle plugin-->
+      <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 
   </body>
