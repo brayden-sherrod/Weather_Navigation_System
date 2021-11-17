@@ -62,156 +62,168 @@
 
           <ul class="list-unstyled components">
               <div id="reports">
-                  </br>
-                  <h3>Settings</h3>
-                  <p>Storm severity to avoid:</p>
-                  <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                      <label class="form-check-label" for="inlineRadio1">1</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                      <label class="form-check-label" for="inlineRadio2">2</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                      <label class="form-check-label" for="inlineRadio3">3</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
-                      <label class="form-check-label" for="inlineRadio4">4</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-                      <label class="form-check-label" for="inlineRadio5">5</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-                      <label class="form-check-label" for="inlineRadio5">None</label>
-                  </div>
-                  <div>
-                      <p>Dark mode</p>
-                      <input type="checkbox" data-toggle="toggle" data-onstyle="primary" id="dark-toggle">
-                      </br>
-                      </br>
-                      <p>Colorblind mode</p>
-                      <input type="checkbox" data-toggle="toggle" data-onstyle="primary">
-                  </div>
-              </div>
+              </br>
+              <h3>Settings</h3>
+                <p>Storm severity to avoid:</p>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                  <label class="form-check-label" for="inlineRadio1">1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                  <label class="form-check-label" for="inlineRadio2">2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                  <label class="form-check-label" for="inlineRadio3">3</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+                  <label class="form-check-label" for="inlineRadio4">4</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
+                  <label class="form-check-label" for="inlineRadio5">5</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio6" checked value="option6">
+                  <label class="form-check-label" for="inlineRadio6">None</label>
+                </div>
+            <div>
+              <p>Dark mode</p>
+                <input type="checkbox"  data-toggle="toggle" data-onstyle="primary" id="dark-toggle" >
+              </br>
+              </br>
+              <p>Colorblind mode</p>
+                <input type="checkbox"  data-toggle="toggle" data-onstyle="primary">
+            </div>
+            </div>
           </ul>
-      </nav>
-
-      <!--content-->
-      <div id="map"></div>
-
-      <!--get your location button-->
-      <button id="getLocButton" onclick="getLocation()" class="btn btn-secondary btn-md" data-toggle="modal" data-target="#myModal">Get your location</button>
-      <div class="modal" id="myModal">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h4 class="modal-title">Your Location</h4>
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  </div>
-                  <div id="modalbody" class="modal-body">
-                      <!--Erin: GetLocation Script, asks to share loc then pastes coord into modal (not mapbox)-->
-                      <script>
-                          var x = document.getElementById("modalbody");
-                          function getLocation() {
-                              if (navigator.geolocation) {
-                                  navigator.geolocation.getCurrentPosition(showPosition);
-                              } else {
-                                  x.innerHTML = "Geolocation is not supported by this browser.";
-                              }
-                          }
-                          function showPosition(position) {
-                              x.innerHTML = "Here are your coordinates. Paste these into the starting location box: " + position.coords.longitude
-                                  + ", " + position.coords.latitude;
-                          }
-                      </script>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                  </div>
-              </div>
+          <div id="sidebarFooter">
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#aboutUsModal" >
+              About Us
+            </button>
           </div>
+      </nav>
+      <!--About Us Modal, needs to be outside of nav tag-->
+      <div class="modal" id="aboutUsModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">About Us</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="modalbody2" class="modal-body">
+              <p>We aim to make Caelum a safer alternative to popular navigation apps by including weather forecasting technology.</p>
+              <p>—the B-RAGE team</p>
+            </div>            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>     
+          </div>
+        </div>
       </div>
+    <!--content-->
+    <div id="map"></div>
+  
+    <!--get your location button-->
+    <button id="getLocButton" onclick="getLocation()" class="btn btn-secondary btn-md" data-toggle="modal" data-target="#myModal">Get your location</button>
+    <script>
+      function getLocation() {   
+        navigator.geolocation.getCurrentPosition(showPosition);
+      }
+      function showPosition(position) {
+       
+        directions.setOrigin([position.coords.longitude, position.coords.latitude]);
+      }
+    </script>
+    
+    <!--Toggle sidebar button-->
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+        <i class="fas fa-tasks fa-2x"></i>
+    </button>
+  
+    <!--Legend Box-->
+    <div id="legend">
+      <i class="fas fa-snowflake"></i><label>&nbsp;Snowstorm</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-bolt"></i><label>&nbsp;Thunderstorm</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-umbrella"></i><label>&nbsp;Rain</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-cloud"></i><label>&nbsp;Overcast</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-sun"></i><label>&nbsp;Sunny</label>&nbsp;&nbsp;&nbsp;
+      <br>
+      <i class="fas fa-square" style = "color:darkgreen" id = "veryLightBox"></i><label>&nbsp;Very Light</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-square" style = "color:limegreen"id = "lightBox"></i><label>&nbsp;Light</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-square" style = "color:yellow" id = "moderateBox"></i><label>&nbsp;Moderate</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-square" style = "color:orangered" id = "heavyBox"></i><label>&nbsp;Heavy</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-square" style = "color:darkred" id = "severeBox"></i><label>&nbsp;Severe</label>
 
-      <!--Toggle sidebar button-->
-      <button type="button" id="sidebarCollapse" class="btn btn-info">
-          <!--<i class="fas fa-align-left"></i>-->
-          <i class="fas fa-tasks fa-2x"></i>
-      </button>
+      <p></p>
+    </div>  
+    <div class="overlay"></div>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!--sidebar scripting-->
+    <script type="text/javascript">
 
-
-      <div class="overlay"></div>
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-      <!--sidebar scripting-->
-      <script type="text/javascript">
-
-          $(document).ready(function () {
-              $("#sidebar").mCustomScrollbar({
-                  theme: "minimal"
-              });
-              $('#dismiss, .overlay').on('click', function () {
-                  // hide sidebar
-                  $('#sidebar').removeClass('active');
-                  // hide overlay
-                  $('.overlay').removeClass('active');
-              });
-              $('#sidebarCollapse').on('click', function () {
-                  // open sidebar
-                  $('#sidebar').addClass('active');
-                  // fade in the overlay
-                  $('.overlay').addClass('active');
-                  $('.collapse.in').toggleClass('in');
-                  $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-              });
-              /**$(function(){
-                $('#dark-toggle').change(function)
-              });**/
-              $('#dark-toggle').on('change', function () {
-                  let checkbox = document.getElementById("dark-toggle");
-                  if ($(this).prop('checked')) {
-                      const map = new mapboxgl.Map({
-                          container: 'map', // Specify the container ID
-                          style: 'mapbox://styles/mapbox/dark-v10', // Specify which map style to use
-                          // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
-                          center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
-                          zoom: 13 // Specify the starting zoom
-                      });
-
-                      directions = new MapboxDirections({
-                          accessToken: mapboxgl.accessToken,
-                      });
-                      map.addControl(directions, 'top-right');
-                      map.scrollZoom.enable();
-
-
-                  } else {
-                      const map = new mapboxgl.Map({
-                          container: 'map', // Specify the container ID
-                          style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
-                          // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
-                          center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
-                          zoom: 13 // Specify the starting zoom
-                      });
-
-                      directions = new MapboxDirections({
-                          accessToken: mapboxgl.accessToken,
-
-                      });
-
-                      map.addControl(directions, 'top-right');
-                      map.scrollZoom.enable();
-                  }
-
-              });
+      $(document).ready(function () {
+          $("#sidebar").mCustomScrollbar({
+              theme: "minimal"
           });
-      </script>
+          $('#dismiss, .overlay').on('click', function () {
+              // hide sidebar
+              $('#sidebar').removeClass('active');
+              // hide overlay
+              $('.overlay').removeClass('active');
+          });
+          $('#sidebarCollapse').on('click', function () {
+              // open sidebar
+              $('#sidebar').addClass('active');
+              // fade in the overlay
+              $('.overlay').addClass('active');
+              $('.collapse.in').toggleClass('in');
+              $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+          });
+          // if dark toggle on, create dark mode map, else create light mode map
+          $('#dark-toggle').on('change', function () {
+            let checkbox = document.getElementById("dark-toggle");
+              if ($(this).prop('checked')) {
+                  const map = new mapboxgl.Map({
+                      container: 'map', // Specify the container ID
+                      style: 'mapbox://styles/mapbox/dark-v10', // Specify which map style to use
+                      // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
+                      center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
+                      zoom: 13// Specify the starting zoom
+                      
+                  });
+
+                  directions = new MapboxDirections({
+                      accessToken: mapboxgl.accessToken,
+                      alternatives: true
+                  });
+                  map.addControl(directions, 'top-right');
+                  map.scrollZoom.enable();
+                  
+            }else{
+              const map = new mapboxgl.Map({
+                      container: 'map', // Specify the container ID
+                      style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
+                      // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
+                      center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
+                      zoom: 13 // Specify the starting zoom
+                  });
+
+                  directions = new MapboxDirections({
+                      accessToken: mapboxgl.accessToken,
+                      alternatives: true
+                  });
+                  map.addControl(directions, 'top-right');
+                  map.scrollZoom.enable();
+            }            
+          });
+      });
+  </script>
 
       <!--Erin: mapbox scripting-->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -229,10 +241,11 @@
               zoom: 13 // Specify the starting zoom
           });
 
-          directions = new MapboxDirections({
+            directions = new MapboxDirections({
               accessToken: mapboxgl.accessToken,
-
-          });
+              unit: 'imperial',
+              alternatives: true,
+            });
 
           map.addControl(directions, 'top-right');
           map.scrollZoom.enable();
