@@ -272,7 +272,7 @@
           });
 
           function weaDatagetter(x) {
-              url = "api.openweathermap.org/data/2.5/weather?lat=" + x[1] + "&lon=" + x[0] + "&appid=" + weaKey
+              url = "https://api.openweathermap.org/data/2.5/weather?lat=" + x[1] + "&lon=" + x[0] + "&appid=" + weaKey
               url = url.replace(/\r?\n|\r/g, "");
               url = url.replace(/\s/g, '');
               //alert(url);
