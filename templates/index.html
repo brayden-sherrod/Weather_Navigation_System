@@ -171,6 +171,14 @@
       <i class="fas fa-umbrella"></i><label>&nbsp;Rain</label>&nbsp;&nbsp;&nbsp;
       <i class="fas fa-cloud"></i><label>&nbsp;Overcast</label>&nbsp;&nbsp;&nbsp;
       <i class="fas fa-sun"></i><label>&nbsp;Sunny</label>&nbsp;&nbsp;&nbsp;
+      <br>
+      <i class="fas fa-square" style = "color:darkgreen" id = "veryLightBox"></i><label>&nbsp;Very Light</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-square" style = "color:limegreen"id = "lightBox"></i><label>&nbsp;Light</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-square" style = "color:yellow" id = "moderateBox"></i><label>&nbsp;Moderate</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-square" style = "color:orangered" id = "heavyBox"></i><label>&nbsp;Heavy</label>&nbsp;&nbsp;&nbsp;
+      <i class="fas fa-square" style = "color:darkred" id = "severeBox"></i><label>&nbsp;Severe</label>
+
+      <p></p>
     </div>  
     <div class="overlay"></div>
   
@@ -207,7 +215,8 @@
                       style: 'mapbox://styles/mapbox/dark-v10', // Specify which map style to use
                       // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
                       center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
-                      zoom: 13 // Specify the starting zoom
+                      zoom: 13// Specify the starting zoom
+                      
                   });
 
                   directions = new MapboxDirections({
