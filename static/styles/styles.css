@@ -5,6 +5,8 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 #sidebar {
+  overflow-y: hidden;
+  overflow-x: hidden;
   width: 20%;
   position: fixed;
   top: 0;
@@ -14,7 +16,6 @@ body {
   background: #7386D5;
   color: #fff;
   transition: all 0.3s;
-  overflow-y: scroll;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
 
