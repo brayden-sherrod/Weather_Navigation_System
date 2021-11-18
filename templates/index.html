@@ -228,8 +228,6 @@
 
       <script>
 
-          
-
           mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
           const weaKey = "596ea34fd1f51985fa7f343042944c67";
           const map = new mapboxgl.Map({
@@ -252,6 +250,7 @@
               // Listen for the `directions.route` event that is triggered when a user
               // makes a selection and add a symbol that matches the result.
               directions.on('route', (event) => {
+                  $(".marker").remove();
                   const styleSpecBox = document.getElementById('json-response');
                   var geojson = {
                       'type': 'FeatureCollection',
@@ -302,6 +301,7 @@
                       new mapboxgl.Marker(el)
                           .setLngLat(marker.geometry.coordinates)
                           .addTo(map);
+
                   }
               });
           });
