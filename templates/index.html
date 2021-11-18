@@ -133,7 +133,6 @@
         navigator.geolocation.getCurrentPosition(showPosition);
       }
       function showPosition(position) {
-       
         directions.setOrigin([position.coords.longitude, position.coords.latitude]);
       }
     </script>
@@ -156,21 +155,20 @@
       <i class="fas fa-square" style = "color:yellow" id = "moderateBox"></i><label>&nbsp;Moderate</label>&nbsp;&nbsp;&nbsp;
       <i class="fas fa-square" style = "color:orangered" id = "heavyBox"></i><label>&nbsp;Heavy</label>&nbsp;&nbsp;&nbsp;
       <i class="fas fa-square" style = "color:darkred" id = "severeBox"></i><label>&nbsp;Severe</label>
+      <!--Aidan: Colors to use for colorblind mode: rgb(174,214,228), rgb(49,145,49), rgb(255, 255, 0), rgb(148,5,5), rgb(56,30,90)-->
 
       <p></p>
     </div>  
     <div class="overlay"></div>
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
     <!--sidebar scripting-->
     <script type="text/javascript">
 
       $(document).ready(function () {
-          $("#sidebar").mCustomScrollbar({
-              theme: "minimal"
-          });
           $('#dismiss, .overlay').on('click', function () {
               // hide sidebar
               $('#sidebar').removeClass('active');
@@ -233,7 +231,7 @@
           
 
           mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
-          const weaKey = "12cf850d548b2368021bf25442325ebb";
+          const weaKey = "596ea34fd1f51985fa7f343042944c67";
           const map = new mapboxgl.Map({
               container: 'map', // Specify the container ID
               style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
@@ -320,11 +318,30 @@
                   .then(function (resp) { return resp.json() }) // Convert data to json
                   .then(function (data) {
                       console.log(data);
+                      // display icons 
+                      if(data.current.weather.at(0).main === "Clouds"){
+                        console.log("clouds")
+                        // display cloud icon
+                        
+                      }
+                      console.log(data.current.weather.at(0).main);
+                      if(data.current.weather.at(0).main === "Rain"){
+                        console.log("rain")
+                      }
+                      if(data.current.weather.at(0).main === "Mist"){
+                        console.log("mist")
+                      }
+                      if(data.current.weather.at(0).main === "Clear"){
+                        console.log("clear")
+                      }
+                      if(data.current.weather.at(0).main === "Haze"){
+                        console.log("haze")
+                      }
+                      //what is snow? snow is small pieces of rain frozen into ice crystals -Aidan
                   })
                   .catch(function () {
                       // catch any errors
                   });
-
           }
 
       </script>
