@@ -227,9 +227,10 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
       <script>
+          //let iconArray = [];
 
           mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
-          const weaKey = "596ea34fd1f51985fa7f343042944c67";
+          const weaKey = "5c2ee4ebcb348c3da5acf641af1e6734";
           const map = new mapboxgl.Map({
               container: 'map', // Specify the container ID
               style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
@@ -256,6 +257,8 @@
                       'type': 'FeatureCollection',
                       'features': []
                   }
+                  const iconArray = [];
+
                   // coord = JSON.stringify(event.route, null, 2);
                   for (let i = 0; i < event.route[0].legs[0].steps.length; i++) {
                       coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
@@ -267,28 +270,64 @@
                           {
                               'type': 'Feature',
                               'properties': {
-                                  'iconSize': [30, 30]
+                                  'iconSize': [40, 40]
                               },
                               'geometry': {
                                   'type': 'Point',
-                                  'coordinates': JSON.parse(coord)
+                                  'coordinates': JSON.parse(coord),
+                                  'icon': ''
                               }
                           });
-                      
+
                       coord = coord.substring(1);
                       coord = coord.substring(0, coord.length - 1);
                       coordinates = coord.split(',');
-                      data = weaDatagetter(coordinates);
+                      data = getWeatherData(coordinates);
                       //alert(JSON.stringify(data));
 
                   }
+              async function getWeatherData(x) {
+              url = "https://api.openweathermap.org/data/2.5/weather?lat=" + x[1] + "&lon=" + x[0] + "&appid=" + weaKey
+              url = url.replace(/\r?\n|\r/g, "");
+              url = url.replace(/\s/g, '');
+              
+          
+
+              
+              //alert(url);
+             
+              fetch(url)
+                  .then(function (resp) { return resp.json() }) // Convert data to json
+                  .then(function (data) {
+                      console.log(data);
+                      // display icons 
+                      
+                    console.log(data.weather.at(0).icon);
+                    //iconArray.push(data.weather.at(0).icon);
+                    
+                    geojson['features']['geometry']['icon'].push(JSON.parse(data.weather.at(0).icon));
+                    console.log(JSON.stringify(geojson));
+                  })
+                  .catch(function () {
+                      // catch any errors
+                  });
+
+                  
+              
+                  //var i =0;
                   for (const marker of geojson.features) {
                       // Create a DOM element for each marker.
                       const el = document.createElement('div');
                       const width = marker.properties.iconSize[0];
                       const height = marker.properties.iconSize[1];
+                     
+                      //console.log("here is the array",iconArray);
+                     
+                      console.log(JSON.stringify(marker.geometry.icon));
+                      // icon = marker.geometry.icon;
+                      
                       el.className = 'marker';
-                      el.style.backgroundImage = `url(https://placekitten.com/g/${width}/${height}/)`;
+                      el.style.backgroundImage = `url(http://openweathermap.org/img/wn/${marker.geometry.icon}@2x.png)`;
                       el.style.width = `${width}px`;
                       el.style.height = `${height}px`;
                       el.style.backgroundSize = '100%';
@@ -298,51 +337,19 @@
                       });
 
                       // Add markers to the map.
-                      new mapboxgl.Marker(el)
-                          .setLngLat(marker.geometry.coordinates)
-                          .addTo(map);
-
+                      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+                     // i++;
+                    
                   }
+                }
+                  
               });
           });
 
           
 
        
-          function weaDatagetter(x) {
-              url = "https://api.openweathermap.org/data/2.5/weather?lat=" + x[1] + "&lon=" + x[0] + "&appid=" + weaKey
-              url = url.replace(/\r?\n|\r/g, "");
-              url = url.replace(/\s/g, '');
-              //alert(url);
-              fetch(url)
-                  .then(function (resp) { return resp.json() }) // Convert data to json
-                  .then(function (data) {
-                      console.log(data);
-                      // display icons 
-                      if(data.current.weather.at(0).main === "Clouds"){
-                        console.log("clouds")
-                        // display cloud icon
-                        
-                      }
-                      console.log(data.current.weather.at(0).main);
-                      if(data.current.weather.at(0).main === "Rain"){
-                        console.log("rain")
-                      }
-                      if(data.current.weather.at(0).main === "Mist"){
-                        console.log("mist")
-                      }
-                      if(data.current.weather.at(0).main === "Clear"){
-                        console.log("clear")
-                      }
-                      if(data.current.weather.at(0).main === "Haze"){
-                        console.log("haze")
-                      }
-                      //what is snow? snow is small pieces of rain frozen into ice crystals -Aidan
-                  })
-                  .catch(function () {
-                      // catch any errors
-                  });
-          }
+         
 
       </script>
       <!--Bootstrap JS plugins-->
