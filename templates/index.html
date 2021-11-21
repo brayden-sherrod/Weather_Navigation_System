@@ -258,90 +258,81 @@
                       'features': []
                   }
                   const iconArray = [];
+                  //doThis(andthenthis);
+                  getCoordinates();
 
+              function getCoordinates(){
                   // coord = JSON.stringify(event.route, null, 2);
                   for (let i = 0; i < event.route[0].legs[0].steps.length; i++) {
                       coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
                       //alert(JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2));
-                      coord = coord.replace(/\r?\n|\r/g, "");
-                      coord = coord.replace(/\s/g, '');
-                      coord = coord.replace(/,/g, ', ');
-                      geojson['features'].push(
-                          {
-                              'type': 'Feature',
-                              'properties': {
-                                  'iconSize': [40, 40]
-                              },
-                              'geometry': {
-                                  'type': 'Point',
-                                  'coordinates': JSON.parse(coord),
-                                  'icon': ''
-                              }
+                    coord = coord.replace(/\r?\n|\r/g, "");
+                    coord = coord.replace(/\s/g, '');
+                    coord = coord.replace(/,/g, ', ');
+                    geojson['features'].push(
+                        {
+                            'type': 'Feature',
+                            'properties': {
+                                'iconSize': [20, 20]
+                            },
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': JSON.parse(coord)
+                            }
+                        });
+
+                    coord = coord.substring(1);
+                    coord = coord.substring(0, coord.length - 1);
+                    coordinates = coord.split(',');
+                    //alert(JSON.stringify(data));
+                    //data = getWeatherData(coordinates);
+                    url = "https://api.openweathermap.org/data/2.5/weather?lat=" + coordinates[1] + "&lon=" + coordinates[0] + "&appid=" + weaKey;
+                    url = url.replace(/\r?\n|\r/g, "");
+                    url = url.replace(/\s/g, '');
+
+                      fetch(url)
+                          .then(function (resp) { return resp.json() }) // Convert data to json
+                          .then(function (data) {
+                            iconArray.push(data.weather.at(0).icon);
+                          })
+                          .then(()=> {
+                            addMarkers();
+                          })
+                          .catch(function () {
+                              // catch any errors
                           });
 
-                      coord = coord.substring(1);
-                      coord = coord.substring(0, coord.length - 1);
-                      coordinates = coord.split(',');
-                      data = getWeatherData(coordinates);
-                      //alert(JSON.stringify(data));
-
-                  }
-              async function getWeatherData(x) {
-              url = "https://api.openweathermap.org/data/2.5/weather?lat=" + x[1] + "&lon=" + x[0] + "&appid=" + weaKey
-              url = url.replace(/\r?\n|\r/g, "");
-              url = url.replace(/\s/g, '');
-              
-          
-
-              
-              //alert(url);
-             
-              fetch(url)
-                  .then(function (resp) { return resp.json() }) // Convert data to json
-                  .then(function (data) {
-                      console.log(data);
-                      // display icons 
-                      
-                    console.log(data.weather.at(0).icon);
-                    //iconArray.push(data.weather.at(0).icon);
-                    
-                    geojson['features']['geometry']['icon'].push(JSON.parse(data.weather.at(0).icon));
-                    console.log(JSON.stringify(geojson));
-                  })
-                  .catch(function () {
-                      // catch any errors
-                  });
-
-                  
-              
-                  //var i =0;
-                  for (const marker of geojson.features) {
-                      // Create a DOM element for each marker.
-                      const el = document.createElement('div');
-                      const width = marker.properties.iconSize[0];
-                      const height = marker.properties.iconSize[1];
-                     
-                      //console.log("here is the array",iconArray);
-                     
-                      console.log(JSON.stringify(marker.geometry.icon));
-                      // icon = marker.geometry.icon;
-                      
-                      el.className = 'marker';
-                      el.style.backgroundImage = `url(http://openweathermap.org/img/wn/${marker.geometry.icon}@2x.png)`;
-                      el.style.width = `${width}px`;
-                      el.style.height = `${height}px`;
-                      el.style.backgroundSize = '100%';
-
-                      el.addEventListener('click', () => {
-                          window.alert(marker.properties.message);
-                      });
-
-                      // Add markers to the map.
-                      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
-                     // i++;
-                    
-                  }
                 }
+              }
+
+              //  function getWeatherData(x) {
+                
+              //}
+              
+            function addMarkers(){
+                var i =0;
+                for (const marker of geojson.features) {
+                    // Create a DOM element for each marker.
+                    const el = document.createElement('div');
+                    const width = marker.properties.iconSize[0];
+                    const height = marker.properties.iconSize[1];
+                    const icon = iconArray.at(i);
+                    el.className = 'marker';
+                    el.style.backgroundImage = `url(http://openweathermap.org/img/wn/${icon}@2x.png)`;
+                    el.style.width = `${width}px`;
+                    el.style.height = `${height}px`;
+                    el.style.backgroundSize = '100%';
+
+                    el.addEventListener('click', () => {
+                        window.alert(marker.properties.message);
+                    });
+
+                    // Add markers to the map.
+                    new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+                    i++;
+                    
+                }
+              }
                   
               });
           });
