@@ -180,8 +180,6 @@
           const map = new mapboxgl.Map({
               container: 'map', // Specify the container ID
               style: 'mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v', // Specify which map style to use
-              // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
-              //mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v
               center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
               zoom: 13 // Specify the starting zoom
           });
@@ -206,14 +204,11 @@
                   }
                   const iconArray = [];
                   const msgArray =[];
-                  //doThis(andthenthis);
                   getCoordinates();
 
               function getCoordinates(){
-                  // coord = JSON.stringify(event.route, null, 2);
                   for (let i = 0; i < event.route[0].legs[0].steps.length; i++) {
                       coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
-                      //alert(JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2));
                     coord = coord.replace(/\r?\n|\r/g, "");
                     coord = coord.replace(/\s/g, '');
                     coord = coord.replace(/,/g, ', ');
@@ -250,13 +245,8 @@
                           .catch(function () {
                               // catch any errors
                           });
-
                 }
               }
-
-              //  function getWeatherData(x) {
-                
-              //}
               
             function addMarkers(){
                 var i =0;
@@ -279,7 +269,6 @@
 
                   el.addEventListener('mouseenter', () => {
                     popup.setLngLat(marker.geometry.coordinates).setHTML(message).addTo(map);
-                      //window.alert(message);
                   });
 
                   // Add markers to the map.
@@ -298,23 +287,22 @@
                   map.setLayoutProperty('settlement-subdivision-label copy', 'visibility', 'visible'); 
                   map.setLayoutProperty('road', 'visibility', 'visible');
                   map.setLayoutProperty('road-motorway-trunk-case-low-navigation copy', 'visibility', 'visible'); 
+                  map.setLayoutProperty('water bg', 'visibility', 'visible'); 
+                  map.setLayoutProperty('settlement-major-label copy', 'visibility', 'visible');
                 }else{
                   map.setLayoutProperty('road', 'visibility', 'none'); 
                   map.setLayoutProperty('settlement-subdivision-label copy', 'visibility', 'none'); 
                   map.setLayoutProperty('background', 'visibility', 'none');  
                   map.setLayoutProperty('road-motorway-trunk-case-low-navigation copy', 'visibility', 'none');  
- 
+                  map.setLayoutProperty('water bg', 'visibility', 'none'); 
+                  map.setLayoutProperty('settlement-major-label copy', 'visibility', 'none');
+
                 }            
             });
 
 
           });
-
-          
-
-       
-         
-
+ 
       </script>
       <!--Bootstrap JS plugins-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
