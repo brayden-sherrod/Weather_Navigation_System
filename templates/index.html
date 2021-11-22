@@ -136,6 +136,8 @@
         directions.setOrigin([position.coords.longitude, position.coords.latitude]);
       }
     </script>
+
+
     
     <!--Toggle sidebar button-->
     <button type="button" id="sidebarCollapse" class="btn btn-info">
@@ -183,43 +185,7 @@
               $('.collapse.in').toggleClass('in');
               $('a[aria-expanded=true]').attr('aria-expanded', 'false');
           });
-          // if dark toggle on, create dark mode map, else create light mode map
-          $('#dark-toggle').on('change', function () {
-            let checkbox = document.getElementById("dark-toggle");
-              if ($(this).prop('checked')) {
-                  const map = new mapboxgl.Map({
-                      container: 'map', // Specify the container ID
-                      style: 'mapbox://styles/mapbox/dark-v10', // Specify which map style to use
-                      // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
-                      center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
-                      zoom: 13// Specify the starting zoom
-                      
-                  });
-
-                  directions = new MapboxDirections({
-                      accessToken: mapboxgl.accessToken,
-                      alternatives: true
-                  });
-                  map.addControl(directions, 'top-right');
-                  map.scrollZoom.enable();
-                  
-            }else{
-              const map = new mapboxgl.Map({
-                      container: 'map', // Specify the container ID
-                      style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
-                      // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
-                      center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
-                      zoom: 13 // Specify the starting zoom
-                  });
-
-                  directions = new MapboxDirections({
-                      accessToken: mapboxgl.accessToken,
-                      alternatives: true
-                  });
-                  map.addControl(directions, 'top-right');
-                  map.scrollZoom.enable();
-            }            
-          });
+        
       });
   </script>
 
@@ -228,13 +194,13 @@
 
       <script>
           //let iconArray = [];
-
           mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
           const weaKey = "5c2ee4ebcb348c3da5acf641af1e6734";
           const map = new mapboxgl.Map({
               container: 'map', // Specify the container ID
-              style: 'mapbox://styles/mapbox/light-v10', // Specify which map style to use
+              style: 'mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v', // Specify which map style to use
               // mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v -- one we created at first
+              //mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v
               center: [-96.334, 30.628], // Specify the starting position [lng, lat] the lng is made neg
               zoom: 13 // Specify the starting zoom
           });
@@ -258,6 +224,7 @@
                       'features': []
                   }
                   const iconArray = [];
+                  const msgArray =[];
                   //doThis(andthenthis);
                   getCoordinates();
 
@@ -273,7 +240,7 @@
                         {
                             'type': 'Feature',
                             'properties': {
-                                'iconSize': [20, 20]
+                                'iconSize': [40, 40]
                             },
                             'geometry': {
                                 'type': 'Point',
@@ -293,7 +260,9 @@
                       fetch(url)
                           .then(function (resp) { return resp.json() }) // Convert data to json
                           .then(function (data) {
+                            console.log(data);
                             iconArray.push(data.weather.at(0).icon);
+                            msgArray.push( "In "+data.name+" the temperature is "+ Math.round(((data.main.temp-273.15)*9/5)+32)+", feels like "+Math.round(((data.main.feels_like-273.15)*9/5)+32)+", with a humidity of "+data.main.humidity+"%. The weather is "+data.weather.at(0).description+".");
                           })
                           .then(()=> {
                             addMarkers();
@@ -312,29 +281,46 @@
             function addMarkers(){
                 var i =0;
                 for (const marker of geojson.features) {
-                    // Create a DOM element for each marker.
-                    const el = document.createElement('div');
-                    const width = marker.properties.iconSize[0];
-                    const height = marker.properties.iconSize[1];
-                    const icon = iconArray.at(i);
-                    el.className = 'marker';
-                    el.style.backgroundImage = `url(http://openweathermap.org/img/wn/${icon}@2x.png)`;
-                    el.style.width = `${width}px`;
-                    el.style.height = `${height}px`;
-                    el.style.backgroundSize = '100%';
+                  // Create a DOM element for each marker.
+                  const el = document.createElement('div');
+                  const width = marker.properties.iconSize[0];
+                  const height = marker.properties.iconSize[1];
+                  const icon = iconArray.at(i);
+                  el.className = 'marker';
+                  el.style.backgroundImage = `url(http://openweathermap.org/img/wn/${icon}@2x.png)`;
+                  el.style.width = `${width}px`;
+                  el.style.height = `${height}px`;
+                  el.style.backgroundSize = '100%';
+                  const message = msgArray.at(i);
+                  el.addEventListener('click', () => {
+                      window.alert(message);
+                  });
 
-                    el.addEventListener('click', () => {
-                        window.alert(marker.properties.message);
-                    });
-
-                    // Add markers to the map.
-                    new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
-                    i++;
+                  // Add markers to the map.
+                  new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+                  i++;
                     
                 }
               }
                   
-              });
+            });
+
+              // dark mode toggle, manually created layouts in mapbox studio that change to a 'dark' look
+              $('#dark-toggle').on('change', function () {
+                if ($(this).prop('checked')) {
+                    map.setLayoutProperty('background', 'visibility', 'visible'); 
+                    map.setLayoutProperty('settlement-subdivision-label copy', 'visibility', 'visible'); 
+                    map.setLayoutProperty('road', 'visibility', 'visible');  
+ 
+                }else{
+                  map.setLayoutProperty('road', 'visibility', 'none'); 
+                  map.setLayoutProperty('settlement-subdivision-label copy', 'visibility', 'none'); 
+                  map.setLayoutProperty('background', 'visibility', 'none');  
+ 
+                }            
+            });
+
+
           });
 
           
