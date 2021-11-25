@@ -208,29 +208,30 @@
 
               function getCoordinates(){
                   for (let i = 0; i < event.route[0].legs[0].steps.length; i++) {
-                      coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
-                    coord = coord.replace(/\r?\n|\r/g, "");
-                    coord = coord.replace(/\s/g, '');
-                    coord = coord.replace(/,/g, ', ');
-                    geojson['features'].push(
-                        {
-                            'type': 'Feature',
-                            'properties': {
-                                'iconSize': [40, 40]
-                            },
-                            'geometry': {
-                                'type': 'Point',
-                                'coordinates': JSON.parse(coord)
+                        coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
+                        coord = coord.replace(/\r?\n|\r/g, "");
+                        coord = coord.replace(/\s/g, '');
+                        coord = coord.replace(/,/g, ', ');
+                        geojson['features'].push(
+                            {
+                                'type': 'Feature',
+                                'properties': {
+                                    'iconSize': [40, 40]
+                                },
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': JSON.parse(coord)
+                                }
                             }
-                        });
+                        );
 
-                    coord = coord.substring(1);
-                    coord = coord.substring(0, coord.length - 1);
-                    coordinates = coord.split(',');
-                    //data = getWeatherData(coordinates);
-                    url = "https://api.openweathermap.org/data/2.5/weather?lat=" + coordinates[1] + "&lon=" + coordinates[0] + "&appid=" + weaKey;
-                    url = url.replace(/\r?\n|\r/g, "");
-                    url = url.replace(/\s/g, '');
+                        coord = coord.substring(1);
+                        coord = coord.substring(0, coord.length - 1);
+                        coordinates = coord.split(',');
+                        //data = getWeatherData(coordinates);
+                        url = "https://api.openweathermap.org/data/2.5/weather?lat=" + coordinates[1] + "&lon=" + coordinates[0] + "&appid=" + weaKey;
+                        url = url.replace(/\r?\n|\r/g, "");
+                        url = url.replace(/\s/g, '');
 
                       fetch(url)
                           .then(function (resp) { return resp.json() }) // Convert data to json
@@ -245,7 +246,7 @@
                           .catch(function () {
                               // catch any errors
                           });
-                }
+                  }
               }
               
             function addMarkers(){
@@ -277,7 +278,9 @@
                     
                 }
               }
-                  
+
+                  const timer = setInterval(() => { getCoordinates(); alert("updated coor weather"); }, 90000);
+
             });
 
               // dark mode toggle, manually created layouts in mapbox studio that change to a 'dark' look
