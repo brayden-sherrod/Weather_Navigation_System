@@ -280,8 +280,9 @@
                       coordinates = coord.split(',');
                       data = weaDatagetter(coordinates);
                       //alert(JSON.stringify(data));
-
                   }
+
+
                   for (const marker of geojson.features) {
                       // Create a DOM element for each marker.
                       const el = document.createElement('div');
