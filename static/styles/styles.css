@@ -123,7 +123,7 @@ input[type=radio]{
 
 #getLocButton{
   float: right;
-  right:  22%;
+  right:  320px;
   top: 1.5%;
   position: fixed;
 }
