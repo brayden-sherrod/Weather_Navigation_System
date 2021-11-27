@@ -197,18 +197,21 @@
               // makes a selection and add a symbol that matches the result.
               directions.on('route', (event) => {
                   $(".marker").remove();
-                  const styleSpecBox = document.getElementById('json-response');
+                  var styleSpecBox = document.getElementById('json-response');
                   var geojson = {
                       'type': 'FeatureCollection',
                       'features': []
                   }
-                  const iconArray = [];
-                  const msgArray =[];
+                  const parentCord = event.route[0].legs[0];
+                  var markerNo = 0;
+                  var iconArray = [];
+                  var msgArray =[];
                   getCoordinates();
 
-              function getCoordinates(){
-                  for (let i = 0; i < event.route[0].legs[0].steps.length; i++) {
-                        coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
+                  function getCoordinates() {
+                      for (let i = 0; i < parentCord.steps.length; i++) {
+                      coord = JSON.stringify(parentCord.steps[i].intersections[0].location, null, 2);
+                      //console.log(coord);
                         coord = coord.replace(/\r?\n|\r/g, "");
                         coord = coord.replace(/\s/g, '');
                         coord = coord.replace(/,/g, ', ');
@@ -238,7 +241,7 @@
                           .then(function (data) {
                             console.log(data);
                             iconArray.push(data.weather.at(0).icon);
-                            msgArray.push( "</br><p>In "+data.name+", the temperature is "+ Math.round(((data.main.temp-273.15)*9/5)+32)+"&#176;F, feels like "+Math.round(((data.main.feels_like-273.15)*9/5)+32)+"&#176;F, with a humidity of "+data.main.humidity+"%. The weather is "+data.weather.at(0).description+".</p>");
+                             msgArray.push( "</br><p>In "+data.name+", the temperature is "+ Math.round(((data.main.temp-273.15)*9/5)+32)+"&#176;F, feels like "+Math.round(((data.main.feels_like-273.15)*9/5)+32)+"&#176;F, with a humidity of "+data.main.humidity+"%. The weather is "+data.weather.at(0).description+".</p>");
                           })
                           .then(()=> {
                             addMarkers();
@@ -250,7 +253,7 @@
               }
               
             function addMarkers(){
-                var i =0;
+                var i = 0;
                 const popup = new mapboxgl.Popup({
                   closeButton: true,
                   closeOnClick: true
@@ -274,12 +277,15 @@
 
                   // Add markers to the map.
                   new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
-                  i++;
-                    
+             
+                    i++
                 }
               }
 
-                  const timer = setInterval(() => { getCoordinates(); alert("updated cool weather"); }, 90000);
+                  const timer = setInterval(() => {
+                      $(".marker").remove();
+                      getCoordinates();
+                  }, 90000);
 
             });
 
