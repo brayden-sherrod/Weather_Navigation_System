@@ -204,10 +204,13 @@
                   }
                   const iconArray = [];
                   const msgArray =[];
+                  const duration=[];
+                  duration.push(0);
                   getCoordinates();
 
               function getCoordinates(){
                   for (let i = 0; i < event.route[0].legs[0].steps.length; i++) {
+                        console.log('this is an event ',event);
                         coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
                         coord = coord.replace(/\r?\n|\r/g, "");
                         coord = coord.replace(/\s/g, '');
@@ -224,28 +227,40 @@
                                 }
                             }
                         );
-
+                        // duration array always has 0 as first index, then sums the duration to get to that step
+                        duration.push((event.route[0].legs[0].steps[i].duration)+duration[i]);
+                        //console.log(duration);
                         coord = coord.substring(1);
                         coord = coord.substring(0, coord.length - 1);
                         coordinates = coord.split(',');
-                        //data = getWeatherData(coordinates);
-                        url = "https://api.openweathermap.org/data/2.5/weather?lat=" + coordinates[1] + "&lon=" + coordinates[0] + "&appid=" + weaKey;
-                        url = url.replace(/\r?\n|\r/g, "");
-                        url = url.replace(/\s/g, '');
-
-                      fetch(url)
+                     
+                        let hour =0;
+                        if(duration[i]>3600){
+                          // find hour is it at and round down, hour max can go to 48
+                          hour= (Math.floor(duration[i]/3600));
+                        }
+                        console.log("hr",hour);
+                        url2 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coordinates[1] + "&lon=" + coordinates[0] + "&exclude=daily&appid=" + weaKey;
+                        url2 = url2.replace(/\r?\n|\r/g, "");
+                        url2 = url2.replace(/\s/g, '');
+                        fetch(url2)
                           .then(function (resp) { return resp.json() }) // Convert data to json
                           .then(function (data) {
+                            iconArray.push(data.hourly[hour].weather.at(0).icon); // icons for the first route
+                            if(hour==0){
+                              msgArray.push( "</br><p> The temperature is "+ Math.round(((data.hourly[hour].temp-273.15)*9/5)+32)+"&#176;F, feels like "+Math.round(((data.hourly[hour].feels_like-273.15)*9/5)+32)+"&#176;F, with a humidity of "+data.hourly[hour].humidity+"%. The weather is "+data.hourly[hour].weather.at(0).description+".</p>");
+                            }else{
+                              msgArray.push( "</br><p>In "+hour+" hour(s), the temperature will be "+ Math.round(((data.hourly[hour].temp-273.15)*9/5)+32)+"&#176;F, feels like "+Math.round(((data.hourly[hour].feels_like-273.15)*9/5)+32)+"&#176;F, with a humidity of "+data.hourly[hour].humidity+"%. The weather will be "+data.hourly[hour].weather.at(0).description+".</p>");
+                            }
+                            console.log(data.hourly[hour].dt);
                             console.log(data);
-                            iconArray.push(data.weather.at(0).icon);
-                            msgArray.push( "</br><p>In "+data.name+", the temperature is "+ Math.round(((data.main.temp-273.15)*9/5)+32)+"&#176;F, feels like "+Math.round(((data.main.feels_like-273.15)*9/5)+32)+"&#176;F, with a humidity of "+data.main.humidity+"%. The weather is "+data.weather.at(0).description+".</p>");
                           })
                           .then(()=> {
                             addMarkers();
                           })
                           .catch(function () {
                               // catch any errors
-                          });
+                          }); 
                   }
               }
               
@@ -279,7 +294,7 @@
                 }
               }
 
-                  const timer = setInterval(() => { getCoordinates(); alert("updated cool weather"); }, 90000);
+                  //const timer = setInterval(() => { getCoordinates(); alert("updated cool weather"); }, 90000);
 
             });
 
