@@ -63,36 +63,10 @@
               <div id="reports">
               </br>
               <h3>Settings</h3>
-                <p>Storm severity to avoid:</p>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                  <label class="form-check-label" for="inlineRadio1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                  <label class="form-check-label" for="inlineRadio2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                  <label class="form-check-label" for="inlineRadio3">3</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
-                  <label class="form-check-label" for="inlineRadio4">4</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-                  <label class="form-check-label" for="inlineRadio5">5</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio6" checked value="option6">
-                  <label class="form-check-label" for="inlineRadio6">None</label>
-                </div>
             <div>
               <p>Dark mode</p>
                 <input type="checkbox"  data-toggle="toggle" data-onstyle="primary" id="dark-toggle" >
             </br>
-            
             </div>
             </div>
           </ul>
@@ -134,7 +108,6 @@
         directions.setOrigin([position.coords.longitude, position.coords.latitude]);
       }
     </script>
-
     
     <!--Toggle sidebar button-->
     <button type="button" id="sidebarCollapse" class="btn btn-info">
@@ -202,16 +175,16 @@
                       'type': 'FeatureCollection',
                       'features': []
                   }
-                  const parentCord = event.route[0].legs[0];
-                  var markerNo = 0;
-                  var iconArray = [];
-                  var msgArray =[];
+                  const iconArray = [];
+                  const msgArray =[];
+                  const duration=[];
+                  duration.push(0);
                   getCoordinates();
 
-                  function getCoordinates() {
-                      for (let i = 0; i < parentCord.steps.length; i++) {
-                      coord = JSON.stringify(parentCord.steps[i].intersections[0].location, null, 2);
-                      //console.log(coord);
+              function getCoordinates(){
+                  for (let i = 0; i < event.route[0].legs[0].steps.length; i++) {
+                        console.log('this is an event ',event);
+                        coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
                         coord = coord.replace(/\r?\n|\r/g, "");
                         coord = coord.replace(/\s/g, '');
                         coord = coord.replace(/,/g, ', ');
@@ -227,28 +200,40 @@
                                 }
                             }
                         );
-
+                        // duration array always has 0 as first index, then sums the duration to get to that step
+                        duration.push((event.route[0].legs[0].steps[i].duration)+duration[i]);
+                        //console.log(duration);
                         coord = coord.substring(1);
                         coord = coord.substring(0, coord.length - 1);
                         coordinates = coord.split(',');
-                        //data = getWeatherData(coordinates);
-                        url = "https://api.openweathermap.org/data/2.5/weather?lat=" + coordinates[1] + "&lon=" + coordinates[0] + "&appid=" + weaKey;
-                        url = url.replace(/\r?\n|\r/g, "");
-                        url = url.replace(/\s/g, '');
-
-                      fetch(url)
+                     
+                        let hour =0;
+                        if(duration[i]>3600){
+                          // find hour is it at and round down, hour max can go to 48
+                          hour= (Math.floor(duration[i]/3600));
+                        }
+                        console.log("hr",hour);
+                        url2 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coordinates[1] + "&lon=" + coordinates[0] + "&exclude=minutely,daily&units=imperial&appid=" + weaKey;
+                        url2 = url2.replace(/\r?\n|\r/g, "");
+                        url2 = url2.replace(/\s/g, '');
+                        fetch(url2)
                           .then(function (resp) { return resp.json() }) // Convert data to json
                           .then(function (data) {
+                            iconArray.push(data.hourly[hour].weather.at(0).icon); // icons for the first route
+                            if(hour==0){
+                              msgArray.push( "</br><p>The temperature is "+ (data.hourly[hour].temp)+"&#176;F, feels like "+(data.hourly[hour].feels_like)+"&#176;F, with a humidity of "+data.hourly[hour].humidity+"%. The weather will be "+data.hourly[hour].weather.at(0).description+". Wind is blowing at "+data.hourly[hour].wind_speed +"mph. </p>");
+                            }else{
+                              msgArray.push( "</br><p>In "+hour+" hour(s), the temperature will be "+ (data.hourly[hour].temp)+"&#176;F, feel like "+(data.hourly[hour].feels_like)+"&#176;F, with a humidity of "+data.hourly[hour].humidity+"%. The weather will be "+data.hourly[hour].weather.at(0).description+". Wind will be blowing at "+data.hourly[hour].wind_speed +"mph. </p>");
+                            }
+                            console.log(data.hourly[hour].dt);
                             console.log(data);
-                            iconArray.push(data.weather.at(0).icon);
-                             msgArray.push( "</br><p>In "+data.name+", the temperature is "+ Math.round(((data.main.temp-273.15)*9/5)+32)+"&#176;F, feels like "+Math.round(((data.main.feels_like-273.15)*9/5)+32)+"&#176;F, with a humidity of "+data.main.humidity+"%. The weather is "+data.weather.at(0).description+".</p>");
                           })
                           .then(()=> {
                             addMarkers();
                           })
                           .catch(function () {
                               // catch any errors
-                          });
+                          }); 
                   }
               }
               
@@ -281,11 +266,7 @@
                     i++
                 }
               }
-
-                  const timer = setInterval(() => {
-                      $(".marker").remove();
-                      getCoordinates();
-                  }, 90000);
+                  //const timer = setInterval(() => { getCoordinates(); alert("updated cool weather"); }, 90000);
 
             });
 
