@@ -180,7 +180,7 @@
                       'type': 'FeatureCollection',
                       'features': []
                   }
-                  const iconArray = [];
+                  var iconArray = [];
                   const msgArray =[];
                   const duration=[];
                   duration.push(0);
@@ -223,8 +223,11 @@
                         url2 = url2.replace(/\s/g, '');
                         fetch(url2)
                           .then(function (resp) { return resp.json() }) // Convert data to json
-                          .then(function (data) {
-                            iconArray.push(data.hourly[hour].weather.at(0).icon); // icons for the first route
+                            .then(function (data) {
+                                var checker = data.hourly[hour].weather.at(0).icon;
+                                checker = checker.replace("\"", "");
+                                checker = checker.replace("\"", "");
+                                iconArray.push(checker); // icons for the first route
                             if(hour==0){
                               msgArray.push( "</br><p>The temperature is "+ (data.hourly[hour].temp)+"&#176;F, feels like "+(data.hourly[hour].feels_like)+"&#176;F, with a humidity of "+data.hourly[hour].humidity+"%. The weather will be "+data.hourly[hour].weather.at(0).description+". Wind is blowing at "+data.hourly[hour].wind_speed +"mph. </p>");
                             }else{
@@ -253,8 +256,11 @@
                   const el = document.createElement('div');
                   const width = marker.properties.iconSize[0];
                   const height = marker.properties.iconSize[1];
-                  const icon = iconArray.at(i);
-                  el.className = 'marker';
+                    var icon = iconArray.at(i);
+                    icon = icon.replace("\"", "");
+                    icon = icon.replace("\"", "");
+                    el.className = 'marker';
+                    console.log(icon);
                   el.style.backgroundImage = `url(https://openweathermap.org/img/wn/${icon}@2x.png)`;
                   el.style.width = `${width}px`;
                   el.style.height = `${height}px`;
