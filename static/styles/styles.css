@@ -144,3 +144,7 @@ img{
   right: 2%;
 }
 
+.btn {
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
