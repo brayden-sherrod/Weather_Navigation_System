@@ -50,11 +50,11 @@
   <body>
       <!-- Sidebar -->
       <nav nav-pills id="sidebar">
-          <div id="dismiss">
+          <div id="dismiss" tabindex="0">
               <i class="fas fa-arrow-left"></i>
           </div>
 
-          <div tabindex="0" class="sidebar-header">
+          <div class="sidebar-header">
               <img src="../static/caelum_logo.png" alt="Caelum logo">
               <h1 id="CaelumTitle">Caelum</h1>
           </div>
@@ -70,7 +70,7 @@
                   </div>
                   <div>
                       </br>
-                      <a href="https://openweathermap.org/weather-conditions#Icon-list" class="btn btn-light" role="button" aria-pressed="true">Legend</a>
+                      <a href="https://openweathermap.org/weather-conditions#Icon-list" class="btn btn-light" role="button" target="_blank" aria-pressed="true">Legend</a>
                       </br>
                   </div>
               </div>
@@ -130,11 +130,22 @@
     <script type="text/javascript">
 
       $(document).ready(function () {
+        // 
+        $(".dismiss").on('focus keydown', function (e) {  
+          if(e.keyCode ==13){
+            console.log("tab is clicked on arrow");
+          }
+          console.log("hovered");
+          //$('#sidebar').addClass('')
+        
+        });
           $('#dismiss, .overlay').on('click', function () {
               // hide sidebar
               $('#sidebar').removeClass('active');
               // hide overlay
               $('.overlay').removeClass('active');
+              $('a[aria-expanded=false]').attr('aria-expanded', 'true');
+
           });
           $('#sidebarCollapse').on('click', function () {
               // open sidebar
@@ -154,7 +165,7 @@
       <script>
           //let iconArray = [];
           mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpbmxhcGtvIiwiYSI6ImNrdmF6MndsZGFqcW4yd21hbDUxMHdmcnAifQ.KVX9P_CItWgU7GZXV9_tVQ';
-          const weaKey = "5c2ee4ebcb348c3da5acf641af1e6734";
+          const weaKey = "b30fe35010d84274c88a529a017fe904";
           const map = new mapboxgl.Map({
               container: 'map', // Specify the container ID
               style: 'mapbox://styles/erinlapko/ckvb4qn6w3j4n14pce06e8f9v', // Specify which map style to use
@@ -165,12 +176,22 @@
             directions = new MapboxDirections({
               accessToken: mapboxgl.accessToken,
               unit: 'imperial',
-              alternatives: true,
             });
 
           map.addControl(directions, 'top-right');
           map.scrollZoom.enable();
           map.on('load', () => {
+            //tabbing
+            $(".mapboxgl-ctrl-geocoder input[type='text']").on('focus keydown', function (e) {  
+              if (e.shiftKey && e.keyCode == 9) {
+                  // manually focus prev eg. $('.someElement').focus();
+                  $('.someElement').focus();
+              }
+              else if (e.keyCode == 9) {
+                  // manually focus next element eg. $('.someOtherElement').focus();
+              }
+          });
+
               // Listen for the `directions.route` event that is triggered when a user
               // makes a selection and add a symbol that matches the result.
               directions.on('route', (event) => {
@@ -213,10 +234,15 @@
                         coordinates = coord.split(',');
                      
                         let hour =0;
+                        let tmp = 0;
                         if(duration[i]>3600){
                           // find hour is it at and round down, hour max can go to 48
-                          hour= (Math.floor(duration[i]/3600));
-                        }
+                            tmp = hour;
+                            hour = (Math.floor(duration[i] / 3600));
+                            if (tmp > hour) {
+                                hour = tmp;
+                            }
+                      }
                         console.log("hr",hour);
                         url2 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coordinates[1] + "&lon=" + coordinates[0] + "&exclude=minutely,daily&units=imperial&appid=" + weaKey;
                         url2 = url2.replace(/\r?\n|\r/g, "");
@@ -258,7 +284,7 @@
                   const height = marker.properties.iconSize[1];
                     var icon = iconArray.at(i);
                     icon = icon.replace("\"", "");
-                    icon = icon.replace("\"", "");
+                    //icon = icon.replace("\"", "");
                     el.className = 'marker';
                     console.log(icon);
                   el.style.backgroundImage = `url(https://openweathermap.org/img/w/${icon}.png)`;
@@ -278,7 +304,6 @@
                 }
               }
                   //const timer = setInterval(() => { getCoordinates(); alert("updated cool weather"); }, 90000);
-
             });
 
               // dark mode toggle, manually created layouts in mapbox studio that change to a 'dark' look
@@ -297,7 +322,6 @@
                   map.setLayoutProperty('road-motorway-trunk-case-low-navigation copy', 'visibility', 'none');  
                   map.setLayoutProperty('water bg', 'visibility', 'none'); 
                   map.setLayoutProperty('settlement-major-label copy', 'visibility', 'none');
-
                 }            
             });
 
