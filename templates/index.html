@@ -50,7 +50,7 @@
   <body>
       <!-- Sidebar -->
       <nav nav-pills id="sidebar">
-          <div id="dismiss" tabindex="0">
+          <div id="dismiss">
               <i class="fas fa-arrow-left"></i>
           </div>
 
@@ -62,21 +62,29 @@
           <ul class="list-unstyled components">
               <div id="reports">
                   </br>
-                  <h3>Settings</h3>
+                  <h3>Instructions</h3>
+                  <ul>
+                    <li>Create a route to find the weather forecast at each turn along your jounrney.</li>
+                    <li>Hover over the icons to see the weather details at that location.</li>
+                    <li>Click and drag the route to avoid poor weather conditions.</li>
+                  </ul>
+                  <p></p>
+                  <p></p>
+                  <p><em>Weather is forecasted on an hourly basis, up to 48 hours.</em></p>
+                </br>
                   <div>
-                      <p>Dark mode</p>
-                      <input type="checkbox" data-toggle="toggle" data-onstyle="primary" id="dark-toggle">
-                      </br>
+                      <input type="checkbox" checked data-toggle="toggle" data-on="Dark mode" data-off="Light mode" data-onstyle="dark" id="dark-toggle">
+                    </br>
                   </div>
                   <div>
                       </br>
-                      <a href="https://openweathermap.org/weather-conditions#Icon-list" class="btn btn-light" role="button" target="_blank" aria-pressed="true">Legend</a>
+                      <a href="https://openweathermap.org/weather-conditions#Icon-list" class="btn btn-light" id="legend" role="button" target="_blank" aria-pressed="true">Legend</a>
                       </br>
                   </div>
               </div>
           </ul>
           <div id="sidebarFooter">
-            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#aboutUsModal" >
+            <button id="AboutUs" type="button" class="btn btn-light" data-toggle="modal" data-target="#aboutUsModal" >
               About Us
             </button>
           </div>
@@ -85,15 +93,15 @@
       <div class="modal" id="aboutUsModal">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div  tabindex="0" class="modal-header">
+            <div   class="modal-header">
               <h4 class="modal-title">About Us</h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div  tabindex="0" id="modalbody2" class="modal-body">
+            <div  id="modalbody2" class="modal-body">
               <p>We aim to make Caelum a safer alternative to popular navigation apps by including weather forecasting technology.</p>
               <p>—the B-RAGE team</p>
             </div>            
-            <div  tabindex="0" class="modal-footer">
+            <div  class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>     
           </div>
@@ -103,7 +111,7 @@
     <div id="map"></div>
   
     <!--get your location button-->
-    <button tabindex="0"  id="getLocButton" onclick="getLocation()" class="btn btn-secondary btn-md" data-toggle="modal" data-target="#myModal">
+    <button   id="getLocButton" onclick="getLocation()" class="btn btn-secondary btn-md" data-toggle="modal" data-target="#myModal">
       <i class="fas fa-location-arrow"></i></button>
     <script>
       function getLocation() {   
@@ -115,7 +123,7 @@
     </script>
     
     <!--Toggle sidebar button-->
-    <button tabindex="0" type="button" id="sidebarCollapse" class="btn btn-info">
+    <button  type="button" id="sidebarCollapse" class="btn btn-info">
         <i class="fas fa-tasks fa-2x"></i>
     </button>
   
@@ -130,15 +138,15 @@
     <script type="text/javascript">
 
       $(document).ready(function () {
-        // 
-        $(".dismiss").on('focus keydown', function (e) {  
-          if(e.keyCode ==13){
-            console.log("tab is clicked on arrow");
-          }
-          console.log("hovered");
-          //$('#sidebar').addClass('')
-        
-        });
+         $("#dismiss").on('focus keydown', function (e) {
+           if(e.keyCode == 13){
+              // hide sidebar
+              $('#sidebar').removeClass('active');
+              // hide overlay
+              $('.overlay').removeClass('active');
+              $('a[aria-expanded=false]').attr('aria-expanded', 'true');
+           }
+          });
           $('#dismiss, .overlay').on('click', function () {
               // hide sidebar
               $('#sidebar').removeClass('active');
@@ -154,6 +162,12 @@
               $('.overlay').addClass('active');
               $('.collapse.in').toggleClass('in');
               $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+              // remove tabindex attributes to stop tabbing when sidebar is closed
+              $(".toggle").removeAttr("tabindex",5);
+              $("#legend").removeAttr("tabindex",6);
+              $("#AboutUs").removeAttr("tabindex",7);
+              $("#dismiss").removeAttr("tabindex",8);
+
           });
         
       });
@@ -181,17 +195,90 @@
           map.addControl(directions, 'top-right');
           map.scrollZoom.enable();
           map.on('load', () => {
+            //when map loads, tabindexes have alerady been set by mapbox
             //tabbing
-            $(".mapboxgl-ctrl-geocoder input[type='text']").on('focus keydown', function (e) {  
+            $(".directions-icon-reverse").attr("tabindex",-1);
+            
+            $("#getLocButton").attr("tabindex",1);
+
+            $("#mapbox-directions-origin-input input[type='text']").attr("tabindex",2);
+            $("#mapbox-directions-destination-input input[type='text']").attr("tabindex",3);
+            $("#sidebarCollapse").attr("tabindex",4);
+            
+            $(".mapboxgl-ctrl-logo").attr("tabindex",10);
+            $("[title|='Mapbox']").attr("tabindex",11);
+            $("[title|='OpenStreetMap']").attr("tabindex",12);
+            $("[title|='Map feedback']").attr("tabindex",13);
+
+
+            //getLocButton
+            $("#getLocButton").on('focus keydown', function (e) {
               if (e.shiftKey && e.keyCode == 9) {
-                  // manually focus prev eg. $('.someElement').focus();
-                  $('.someElement').focus();
+                  console.log("shift and tab on grey button");
+                  setTimeout(function () {
+                  $("#sidebarCollapse").focus();
+                  }, 100);
+
               }
               else if (e.keyCode == 9) {
-                  // manually focus next element eg. $('.someOtherElement').focus();
+                console.log("tab on grey button");  
+                setTimeout(function () {
+                  $("#mapbox-directions-origin-input input[type='text']").focus(); 
+
+                  }, 100)
+              }           
+          });
+            // A button
+            $("#mapbox-directions-origin-input input[type='text']").on('focus keydown', function (e) { 
+              if (e.shiftKey && e.keyCode == 9) {
+                  console.log("shift tab on A");
+                  setTimeout(function () {
+                  var locButton = document.getElementById("getLocButton");
+                  $(locButton).focus();
+                  }, 100)
+              }
+              else if (e.keyCode == 9) {
+                console.log("tab on A button");
+                setTimeout(function () {
+                  $("#mapbox-directions-destination-input input[type='text']").focus(); 
+                  }, 100);
+              }
+          });
+          // B button
+          $("#mapbox-directions-destination-input input[type='text']").on('focus keydown', function (e) { 
+              if (e.shiftKey && e.keyCode == 9) {
+                  console.log("shift tab on B");
+                  $("#mapbox-directions-origin-input input[type='text']").focus(); 
+              }
+              else if (e.keyCode == 9) {
+                console.log("tab on B button");
+                setTimeout(function () {
+                  $("#sidebarCollapse").focus(); 
+                  }, 100);
+              }
+          });
+          //checklist Button
+          $("#sidebarCollapse").on('focus keydown', function (e) { 
+              if (e.shiftKey && e.keyCode == 9) {
+                  console.log("shift tab on checklist");
+                  setTimeout(function () {
+                    $("#mapbox-directions-destination-input input[type='text']").focus(); 
+                  }, 100);
+              }
+              else if (e.keyCode == 9) {
+                console.log("tab on checklist");
+                
               }
           });
 
+          $('#sidebarCollapse').click(function(){
+            $(".toggle").attr("tabindex",5);
+            $("#legend").attr("tabindex",6);
+            $("#AboutUs").attr("tabindex",7);
+            $("#dismiss").attr("tabindex",8);
+
+
+          });
               // Listen for the `directions.route` event that is triggered when a user
               // makes a selection and add a symbol that matches the result.
               directions.on('route', (event) => {
@@ -209,7 +296,7 @@
 
               function getCoordinates(){
                   for (let i = 0; i < event.route[0].legs[0].steps.length; i++) {
-                        console.log('this is an event ',event);
+                        //console.log('this is an event ',event);
                         coord = JSON.stringify(event.route[0].legs[0].steps[i].intersections[0].location, null, 2);
                         coord = coord.replace(/\r?\n|\r/g, "");
                         coord = coord.replace(/\s/g, '');
@@ -243,7 +330,7 @@
                                 hour = tmp;
                             }
                       }
-                        console.log("hr",hour);
+                        //console.log("hr",hour);
                         url2 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coordinates[1] + "&lon=" + coordinates[0] + "&exclude=minutely,daily&units=imperial&appid=" + weaKey;
                         url2 = url2.replace(/\r?\n|\r/g, "");
                         url2 = url2.replace(/\s/g, '');
@@ -259,8 +346,8 @@
                             }else{
                               msgArray.push( "</br><p>In "+hour+" hour(s), the temperature will be "+ (data.hourly[hour].temp)+"&#176;F, feel like "+(data.hourly[hour].feels_like)+"&#176;F, with a humidity of "+data.hourly[hour].humidity+"%. The weather will be "+data.hourly[hour].weather.at(0).description+". Wind will be blowing at "+data.hourly[hour].wind_speed +"mph. </p>");
                             }
-                            console.log(data.hourly[hour].dt);
-                            console.log(data);
+                            //console.log(data.hourly[hour].dt);
+                            //console.log(data);
                           })
                           .then(()=> {
                             addMarkers();
@@ -286,7 +373,6 @@
                     icon = icon.replace("\"", "");
                     //icon = icon.replace("\"", "");
                     el.className = 'marker';
-                    console.log(icon);
                   el.style.backgroundImage = `url(https://openweathermap.org/img/w/${icon}.png)`;
                   el.style.width = `${width}px`;
                   el.style.height = `${height}px`;
@@ -309,19 +395,19 @@
               // dark mode toggle, manually created layouts in mapbox studio that change to a 'dark' look
               $('#dark-toggle').on('change', function () {
                 if ($(this).prop('checked')) {
-                  map.setLayoutProperty('background', 'visibility', 'visible'); 
-                  map.setLayoutProperty('settlement-subdivision-label copy', 'visibility', 'visible'); 
-                  map.setLayoutProperty('road', 'visibility', 'visible');
-                  map.setLayoutProperty('road-motorway-trunk-case-low-navigation copy', 'visibility', 'visible'); 
-                  map.setLayoutProperty('water bg', 'visibility', 'visible'); 
-                  map.setLayoutProperty('settlement-major-label copy', 'visibility', 'visible');
-                }else{
                   map.setLayoutProperty('road', 'visibility', 'none'); 
                   map.setLayoutProperty('settlement-subdivision-label copy', 'visibility', 'none'); 
                   map.setLayoutProperty('background', 'visibility', 'none');  
                   map.setLayoutProperty('road-motorway-trunk-case-low-navigation copy', 'visibility', 'none');  
                   map.setLayoutProperty('water bg', 'visibility', 'none'); 
                   map.setLayoutProperty('settlement-major-label copy', 'visibility', 'none');
+                }else{
+                  map.setLayoutProperty('background', 'visibility', 'visible'); 
+                  map.setLayoutProperty('settlement-subdivision-label copy', 'visibility', 'visible'); 
+                  map.setLayoutProperty('road', 'visibility', 'visible');
+                  map.setLayoutProperty('road-motorway-trunk-case-low-navigation copy', 'visibility', 'visible'); 
+                  map.setLayoutProperty('water bg', 'visibility', 'visible'); 
+                  map.setLayoutProperty('settlement-major-label copy', 'visibility', 'visible');
                 }            
             });
 
