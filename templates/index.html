@@ -61,20 +61,19 @@
 
           <ul class="list-unstyled components">
               <div id="reports">
-                  </br>
                   <h3>Instructions</h3>
                   <ul>
-                    <li>Create a route to find the weather forecast at each turn along your jounrney.</li>
-                    <li>Hover over the icons to see the weather details at that location.</li>
+                    <li>Create a route to find the weather forecast at each turn along your journey.</li>
+                    <li>Hover over the icons to see the weather details at every location.</li>
                     <li>Click and drag the route to avoid poor weather conditions.</li>
                   </ul>
                   <p></p>
                   <p></p>
                   <p><em>Weather is forecasted on an hourly basis, up to 48 hours.</em></p>
                 </br>
-                  <div>
+                  <div> 
                       <input type="checkbox" checked data-toggle="toggle" data-on="Light mode" data-off="Dark mode" data-onstyle="secondary" data-offstyle="dark" id="dark-toggle">
-                    </br>
+                    </br> 
                   </div>
                   <div>
                       </br>
@@ -138,6 +137,7 @@
     <script type="text/javascript">
 
       $(document).ready(function () {
+
          $("#dismiss").on('focus keydown', function (e) {
            if(e.keyCode == 13){
               // hide sidebar
@@ -167,10 +167,10 @@
               $("#legend").removeAttr("tabindex",6);
               $("#AboutUs").removeAttr("tabindex",7);
               $("#dismiss").removeAttr("tabindex",8);
-
           });
-        
+          
       });
+
   </script>
 
       <!--Erin: mapbox scripting-->
@@ -346,8 +346,6 @@
                             }else{
                               msgArray.push( "</br><p>In "+hour+" hour(s), the temperature will be "+ (data.hourly[hour].temp)+"&#176;F, feel like "+(data.hourly[hour].feels_like)+"&#176;F, with a humidity of "+data.hourly[hour].humidity+"%. The weather will be "+data.hourly[hour].weather.at(0).description+". Wind will be blowing at "+data.hourly[hour].wind_speed +"mph. </p>");
                             }
-                            //console.log(data.hourly[hour].dt);
-                            //console.log(data);
                           })
                           .then(()=> {
                             addMarkers();
@@ -389,7 +387,6 @@
                     i++
                 }
               }
-                  //const timer = setInterval(() => { getCoordinates(); alert("updated cool weather"); }, 90000);
             });
 
               // dark mode toggle, manually created layouts in mapbox studio that change to a 'dark' look

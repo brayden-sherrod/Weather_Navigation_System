@@ -5,7 +5,7 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 #sidebar {
-  overflow-y: hidden;
+  
   overflow-x: hidden;
   width: 20%;
   position: fixed;
@@ -65,7 +65,7 @@ body {
 
 #sidebar ul.components {
   padding: 20px ;
-  border-bottom: 1px solid #47748b;
+  border-bottom: 1px solid #6074ce;
 }
 
 a[data-toggle="collapse"] {
@@ -88,12 +88,9 @@ a[data-toggle="collapse"] {
 }
 
 #sidebarFooter{
-  position: fixed;
   bottom:2%;
-  padding: 30px;
+  padding: 20px;
 }
-
-
 
 #map {
   position: absolute;
@@ -132,4 +129,21 @@ img{
 .btn {
   margin-bottom: 1rem;
   cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #7386D5; 
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #7386D5; 
+  
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #7386D5; 
 }
